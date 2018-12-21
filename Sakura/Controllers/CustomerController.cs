@@ -11,9 +11,11 @@ namespace Sakura.Controllers
     public class CustomerController : ApiController
     {
         [HttpGet, Route("Count")]
-        public void Count()
+        public int Count()
         {
-            return;
+            TutorialDBEntities TutorialDBEntities = new TutorialDBEntities();
+
+            return TutorialDBEntities.Customers.Count();
         }
         [HttpGet, Route("List")]
         public List<Customer> List()
@@ -65,7 +67,7 @@ namespace Sakura.Controllers
             }
         }
 
-        [HttpDelete, Route("CustomerId")]
+        [HttpDelete, Route("{CustomerId}")]
         public HttpResponseMessage Delete(int CustomerId)
         {
             try
@@ -76,7 +78,7 @@ namespace Sakura.Controllers
                 {
                     tutorialDBEntities.Customers.Remove(_customer);
                     tutorialDBEntities.SaveChanges();
-                    return Request.CreateResponse(HttpStatusCode.OK, _customer);
+                    return Request.CreateResponse(HttpStatusCode.OK, CustomerId);
                 }
                 else
                 {
